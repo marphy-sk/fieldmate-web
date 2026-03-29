@@ -1,0 +1,2032 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FieldMate - Koniec papierovym vykazom | Appka pre remeslnikov</title>
+    <meta name="description" content="FieldMate je mobilna appka pre elektrikarov, instalaterov a remeslnikov. Vytvor vykaz priamo na zakazke, vygeneruj PDF a zdielaj cez WhatsApp za 2 minuty.">
+    <meta property="og:title" content="FieldMate - Koniec papierovym vykazom">
+    <meta property="og:description" content="Zakazka, PDF, WhatsApp za 2 minuty. Appka pre remeslnikov na Slovensku.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fieldmate.marphy.sk">
+    <meta property="og:image" content="https://fieldmate.marphy.sk/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* ========== RESET & BASE ========== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #0f172a;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+        }
+
+        img { max-width: 100%; height: auto; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* ========== VARIABLES ========== */
+        :root {
+            --primary-dark: #0f172a;
+            --primary: #1e3a5f;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --success: #22c55e;
+            --bg-light: #f1f5f9;
+            --surface: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --max-width: 1200px;
+            --section-padding: 5rem 1.5rem;
+        }
+
+        /* ========== UTILITIES ========== */
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        .text-center { text-align: center; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: var(--primary-dark);
+        }
+
+        .btn-accent:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(245, 158, 11, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-outline:hover {
+            border-color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .btn-dark {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+
+        .btn-dark:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15, 23, 42, 0.3);
+        }
+
+        /* ========== ANIMATIONS ========== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.6s ease-out both;
+        }
+
+        .animate-delay-1 { animation-delay: 0.1s; }
+        .animate-delay-2 { animation-delay: 0.2s; }
+        .animate-delay-3 { animation-delay: 0.3s; }
+        .animate-delay-4 { animation-delay: 0.4s; }
+        .animate-delay-5 { animation-delay: 0.5s; }
+
+        /* ========== NAV ========== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .nav-logo span {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+
+        .nav-cta {
+            background: var(--accent) !important;
+            color: var(--primary-dark) !important;
+            padding: 0.5rem 1.25rem !important;
+            border-radius: 8px;
+            font-weight: 600 !important;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-dark) !important;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+        }
+
+        .nav-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #fff;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #2d4a6f 100%);
+            padding: 8rem 1.5rem 5rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            color: #fff;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out both;
+        }
+
+        .hero h1 .highlight {
+            color: var(--accent);
+        }
+
+        .hero .subheadline {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: rgba(255,255,255,0.8);
+            max-width: 700px;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero .stats {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.875rem;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .hero .stats .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        .hero .stats .number {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9375rem;
+            transition: all 0.2s ease;
+        }
+
+        .store-btn-apple {
+            background: #fff;
+            color: var(--primary-dark);
+        }
+
+        .store-btn-apple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255,255,255,0.2);
+        }
+
+        .store-btn-google {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .store-btn-google:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-2px);
+        }
+
+        .store-icon {
+            font-size: 1.5rem;
+        }
+
+        .store-btn-text {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+
+        .store-btn-text small {
+            font-size: 0.6875rem;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+
+        .store-btn-text strong {
+            font-size: 0.9375rem;
+            line-height: 1.2;
+        }
+
+        /* ========== VIDEO ========== */
+        .video-section {
+            background: var(--primary-dark);
+            padding: var(--section-padding);
+        }
+
+        .video-section .container {
+            text-align: center;
+        }
+
+        .video-section h2 {
+            color: #fff;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        .video-placeholder {
+            max-width: 800px;
+            margin: 0 auto;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 40px rgba(245, 158, 11, 0.1);
+        }
+
+        .play-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .video-placeholder:hover .play-icon {
+            transform: scale(1.1);
+        }
+
+        .play-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 22px solid var(--primary-dark);
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            margin-left: 4px;
+        }
+
+        .video-placeholder p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.875rem;
+        }
+
+        /* ========== PAIN POINTS ========== */
+        .pain-points {
+            background: var(--surface);
+            padding: var(--section-padding);
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .pain-card {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 16px;
+            padding: 1.75rem;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .pain-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .pain-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .pain-card p {
+            font-weight: 600;
+            font-size: 0.9375rem;
+            color: #991b1b;
+        }
+
+        .pain-closing {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* ========== SOLUTION ========== */
+        .solution {
+            background: var(--bg-light);
+            padding: var(--section-padding);
+        }
+
+        .solution .container {
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .solution p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .solution .tagline {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(34, 197, 94, 0.1));
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        /* ========== COMPARISON TABLE ========== */
+        .comparison {
+            background: var(--surface);
+            padding: var(--section-padding);
+        }
+
+        .comparison-table {
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .comparison-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th {
+            padding: 1.25rem 1.5rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .comparison-table th:first-child {
+            text-align: left;
+            width: 40%;
+        }
+
+        .comparison-table th:nth-child(2) {
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .comparison-table th:nth-child(3) {
+            background: #f0fdf4;
+            color: #166534;
+        }
+
+        .comparison-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.9375rem;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+        }
+
+        .comparison-table td:nth-child(2) {
+            text-align: center;
+            color: #dc2626;
+        }
+
+        .comparison-table td:nth-child(3) {
+            text-align: center;
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ========== CTA BAND ========== */
+        .cta-band {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+
+        .cta-band h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-band p {
+            font-size: 1.125rem;
+            color: rgba(15, 23, 42, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .cta-band .hero-buttons {
+            justify-content: center;
+        }
+
+        .cta-band .store-btn-apple {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+
+        .cta-band .store-btn-google {
+            border-color: rgba(15, 23, 42, 0.3);
+            color: var(--primary-dark);
+        }
+
+        /* ========== BENEFITS ========== */
+        .benefits {
+            background: var(--surface);
+            padding: var(--section-padding);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .benefit-card {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+        }
+
+        .benefit-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-card p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+        }
+
+        /* ========== HOW IT WORKS ========== */
+        .how-it-works {
+            background: var(--bg-light);
+            padding: var(--section-padding);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: var(--accent);
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.0625rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* ========== COMPETITOR COMPARISON ========== */
+        .competitor {
+            background: var(--surface);
+            padding: var(--section-padding);
+        }
+
+        .competitor-table-wrap {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+
+        .competitor-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+        }
+
+        .competitor-table th,
+        .competitor-table td {
+            padding: 1rem 1.25rem;
+            text-align: center;
+            font-size: 0.875rem;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .competitor-table th {
+            font-weight: 700;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: var(--bg-light);
+        }
+
+        .competitor-table th:first-child,
+        .competitor-table td:first-child {
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .competitor-table th.highlight-col {
+            background: var(--primary-dark);
+            color: var(--accent);
+        }
+
+        .competitor-table td.highlight-col {
+            background: rgba(245, 158, 11, 0.05);
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .competitor-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ========== PRICING ========== */
+        .pricing {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: var(--section-padding);
+            color: #fff;
+        }
+
+        .pricing .section-title { color: #fff; }
+        .pricing .section-subtitle { color: rgba(255,255,255,0.6); }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .pricing-card {
+            border-radius: 20px;
+            padding: 2.5rem;
+            position: relative;
+        }
+
+        .pricing-card.free {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .pricing-card.pro {
+            background: var(--accent);
+            color: var(--primary-dark);
+            box-shadow: 0 16px 48px rgba(245, 158, 11, 0.3);
+        }
+
+        .pricing-card.pro .badge {
+            position: absolute;
+            top: -12px;
+            right: 24px;
+            background: var(--primary-dark);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.375rem 1rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .pricing-period {
+            font-size: 0.875rem;
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+        }
+
+        .pricing-features li::before {
+            content: '\2713';
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .pricing-card.free .pricing-features li::before {
+            color: var(--success);
+        }
+
+        .pricing-card.pro .pricing-features li::before {
+            color: var(--primary-dark);
+        }
+
+        .pricing-anchor {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .pricing-anchor p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9375rem;
+        }
+
+        .pricing-anchor strong {
+            color: var(--accent);
+        }
+
+        .pricing-note {
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.8125rem;
+            margin-top: 1rem;
+        }
+
+        /* ========== CTA #2 ========== */
+        .cta-band-2 {
+            background: linear-gradient(135deg, var(--accent), #fbbf24);
+            padding: 4rem 1.5rem;
+            text-align: center;
+        }
+
+        .cta-band-2 h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .cta-band-2 p {
+            font-size: 1.125rem;
+            color: rgba(15, 23, 42, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        /* ========== REVIEWS ========== */
+        .reviews {
+            background: var(--surface);
+            padding: var(--section-padding);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .review-card {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .review-stars {
+            color: var(--accent);
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .review-card blockquote {
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            margin-bottom: 1.25rem;
+            font-style: italic;
+        }
+
+        .review-author {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .review-author strong {
+            font-size: 0.9375rem;
+        }
+
+        .review-author span {
+            font-size: 0.8125rem;
+            color: var(--text-secondary);
+        }
+
+        /* ========== GUARANTEE ========== */
+        .guarantee {
+            background: var(--bg-light);
+            padding: var(--section-padding);
+            text-align: center;
+        }
+
+        .guarantee-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+            border: 2px solid #e0f2fe;
+        }
+
+        .guarantee-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .guarantee-box h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+        }
+
+        .guarantee-box p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* ========== BONUSES ========== */
+        .bonuses {
+            background: var(--surface);
+            padding: var(--section-padding);
+        }
+
+        .bonus-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            border: 2px solid var(--accent);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .bonus-badge {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary-dark);
+            font-size: 0.8125rem;
+            font-weight: 700;
+            padding: 0.375rem 1rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+        }
+
+        .bonus-list {
+            text-align: left;
+            margin: 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .bonus-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .bonus-list li::before {
+            content: '\1F381';
+            flex-shrink: 0;
+        }
+
+        .bonus-spots {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #dc2626;
+            margin-top: 1rem;
+        }
+
+        /* ========== ABOUT ========== */
+        .about {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: var(--section-padding);
+            color: #fff;
+        }
+
+        .about .container {
+            max-width: 700px;
+            text-align: center;
+        }
+
+        .about-avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .about h2 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .about .subtitle {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .about p {
+            color: rgba(255,255,255,0.75);
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* ========== TARGET AUDIENCE ========== */
+        .audience {
+            background: var(--surface);
+            padding: var(--section-padding);
+        }
+
+        .audience-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .audience-col h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .audience-col ul {
+            display: flex;
+            flex-direction: column;
+            gap: 0.875rem;
+        }
+
+        .audience-col li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9375rem;
+            line-height: 1.5;
+        }
+
+        .audience-col li .icon {
+            flex-shrink: 0;
+            font-size: 1.125rem;
+        }
+
+        .audience-yes h3 { color: #16a34a; }
+        .audience-no h3 { color: #dc2626; }
+
+        /* ========== FAQ ========== */
+        .faq {
+            background: var(--bg-light);
+            padding: var(--section-padding);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .faq-list details {
+            background: var(--surface);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .faq-list details[open] {
+            border-color: var(--accent);
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.1);
+        }
+
+        .faq-list summary {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+        }
+
+        .faq-list summary::-webkit-details-marker { display: none; }
+
+        .faq-list summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-secondary);
+            transition: transform 0.2s;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+
+        .faq-list details[open] summary::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.25rem;
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+        }
+
+        /* ========== FINAL CTA ========== */
+        .final-cta {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 50%, #2d4a6f 100%);
+            padding: 5rem 1.5rem;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .final-cta .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .final-cta h2 {
+            font-size: clamp(1.5rem, 4vw, 2.25rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .final-cta h2 .highlight {
+            color: var(--accent);
+        }
+
+        .final-cta p {
+            color: rgba(255,255,255,0.7);
+            font-size: 1.125rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .final-cta .hero-buttons {
+            justify-content: center;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: #0a0f1a;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .footer-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 0.25rem;
+        }
+
+        .footer-logo span {
+            color: var(--accent);
+        }
+
+        .footer-tagline {
+            font-size: 0.8125rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.8125rem;
+            color: rgba(255,255,255,0.5);
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-copy {
+            font-size: 0.75rem;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            :root {
+                --section-padding: 3.5rem 1.25rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary-dark);
+                flex-direction: column;
+                padding: 1.5rem;
+                gap: 1rem;
+                border-top: 1px solid rgba(255,255,255,0.05);
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .hero {
+                padding: 7rem 1.25rem 3.5rem;
+                min-height: auto;
+            }
+
+            .hero .stats {
+                flex-wrap: wrap;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .store-btn {
+                justify-content: center;
+            }
+
+            .section-title {
+                font-size: 1.625rem;
+            }
+
+            .pain-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .audience-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.75rem 1rem;
+                font-size: 0.8125rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pain-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .bonus-box {
+                padding: 1.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAV ===== -->
+    <nav>
+        <div class="container">
+            <a href="#" class="nav-logo">FieldMate <span>&nbsp;&#9889;</span></a>
+            <div class="nav-links" id="navLinks">
+                <a href="#features">Funkcie</a>
+                <a href="#pricing">Cennik</a>
+                <a href="#faq">FAQ</a>
+                <a href="#download" class="nav-cta">Stiahnut</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- ===== 1. HERO ===== -->
+        <section class="hero" id="hero">
+            <div class="container">
+                <h1 class="animate-in">
+                    Koniec papierovym vykazom.<br>
+                    <span class="highlight">Zakazka &rarr; PDF &rarr; WhatsApp</span><br>
+                    za 2 minuty.
+                </h1>
+                <p class="subheadline">
+                    FieldMate je appka pre elektrikarov, instalaterov a remeslnikov, ktori chcu mat vykazy hotove este na zakazke &mdash; nie vecer doma za stolom.
+                </p>
+                <div class="stats">
+                    <span>Uz <span class="number">127</span> remeslnikov na Slovensku</span>
+                    <span class="dot"></span>
+                    <span>Usetria priemerne <span class="number">45 minut</span> denne</span>
+                </div>
+                <div class="hero-buttons" id="download">
+                    <a href="#" class="store-btn store-btn-apple">
+                        <span class="store-icon">&#63743;</span>
+                        <span class="store-btn-text">
+                            <small>Stiahnut z</small>
+                            <strong>App Store</strong>
+                        </span>
+                    </a>
+                    <a href="#" class="store-btn store-btn-google">
+                        <span class="store-icon">&#9654;</span>
+                        <span class="store-btn-text">
+                            <small>Stiahnut z</small>
+                            <strong>Google Play</strong>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 2. VIDEO ===== -->
+        <section class="video-section">
+            <div class="container">
+                <h2>Pozri sa, ako to funguje. 60 sekund. Bez kecov.</h2>
+                <div class="video-placeholder">
+                    <div class="play-icon"></div>
+                    <p>Video coskoro</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 3. PAIN POINTS ===== -->
+        <section class="pain-points">
+            <div class="container">
+                <h2 class="section-title text-center">Poznas to?</h2>
+                <p class="section-subtitle text-center" style="margin-left:auto;margin-right:auto;">
+                    Cely den robis. Vecer pises.
+                </p>
+                <div class="pain-grid">
+                    <div class="pain-card">
+                        <div class="pain-icon">&#128556;</div>
+                        <p>Vykazy z hlavy po praci</p>
+                    </div>
+                    <div class="pain-card">
+                        <div class="pain-icon">&#129534;</div>
+                        <p>Blocky pokrcene vo vrecku</p>
+                    </div>
+                    <div class="pain-card">
+                        <div class="pain-icon">&#128222;</div>
+                        <p>Klient vola kedy posles vykaz</p>
+                    </div>
+                    <div class="pain-card">
+                        <div class="pain-icon">&#128247;</div>
+                        <p>Fotky stratene v galerii</p>
+                    </div>
+                    <div class="pain-card">
+                        <div class="pain-icon">&#128176;</div>
+                        <p>Na konci mesiaca nevies kolko si zarobil</p>
+                    </div>
+                </div>
+                <p class="pain-closing">
+                    &ldquo;Toto nie je praca. Toto je druha zmena.&rdquo;
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== 4. RIESENIE ===== -->
+        <section class="solution">
+            <div class="container">
+                <h2 class="section-title">FieldMate to vyriesi za teba. Priamo na zakazke.</h2>
+                <p>
+                    Otvoris appku, zapisas co si robil, ofotis material, das podpisat zakaznikovi a posles PDF cez WhatsApp.
+                    Cela vec trva 2 minuty. Este predtym, nez nastupisdo dodavky.
+                </p>
+                <div class="tagline">
+                    Ziadne vecerne sedenie. Ziadne papiere. Ziadne &ldquo;poslem ti to zajtra&rdquo;.
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 5. POROVNANIE ===== -->
+        <section class="comparison">
+            <div class="container text-center">
+                <h2 class="section-title">Cisla, ktore hovoria za vsetko</h2>
+                <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">
+                    Porovnanie bezneho dna bez a s FieldMate
+                </p>
+                <div class="comparison-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Bez FieldMate</th>
+                                <th>S FieldMate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cas na vykaz</td>
+                                <td>30 - 45 min</td>
+                                <td>2 minuty</td>
+                            </tr>
+                            <tr>
+                                <td>Kedy posles vykaz</td>
+                                <td>Zajtra... alebo nikdy</td>
+                                <td>Hned na mieste</td>
+                            </tr>
+                            <tr>
+                                <td>Fotky z prace</td>
+                                <td>Medzi selfie v galerii</td>
+                                <td>Priradene k zakazke</td>
+                            </tr>
+                            <tr>
+                                <td>Prehlad zarobkov</td>
+                                <td>Excel? Papier? Pamat?</td>
+                                <td>Dashboard v appke</td>
+                            </tr>
+                            <tr>
+                                <td>Podpis zakaznika</td>
+                                <td>Zabudnes ho ziskat</td>
+                                <td>Prstom na display</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 6. CTA #1 ===== -->
+        <section class="cta-band">
+            <div class="container">
+                <h2>Vyskusaj FieldMate zadarmo</h2>
+                <p>10 zakaziek mesacne. Bez kreditky. Bez zavazkov.</p>
+                <div class="hero-buttons" style="justify-content:center;">
+                    <a href="#" class="store-btn store-btn-apple">
+                        <span class="store-icon">&#63743;</span>
+                        <span class="store-btn-text">
+                            <small>Stiahnut z</small>
+                            <strong>App Store</strong>
+                        </span>
+                    </a>
+                    <a href="#" class="store-btn store-btn-google">
+                        <span class="store-icon">&#9654;</span>
+                        <span class="store-btn-text">
+                            <small>Stiahnut z</small>
+                            <strong>Google Play</strong>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 7. CO ZISKAS ===== -->
+        <section class="benefits" id="features">
+            <div class="container">
+                <h2 class="section-title text-center">Co ziskas</h2>
+                <p class="section-subtitle text-center" style="margin-left:auto;margin-right:auto;">
+                    Vsetko, co potrebujes na to, aby si nemusel pisat vykazy vecer doma.
+                </p>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">&#9889;</div>
+                        <h3>Vykaz za 2 minuty</h3>
+                        <p>Zadaj pracu a material, appka spocita sucty a vygeneruje profesionalny PDF.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">&#128196;</div>
+                        <h3>Profesionalny PDF</h3>
+                        <p>S tvojim logom, firmou, popisom prac a materialov. Vyzera to lepsie ako z Excelu.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">&#128247;</div>
+                        <h3>Fotodokumentacia</h3>
+                        <p>Pred, po, blocky. Vsetko priradene ku zakazke, nie stratene v galerii telefonu.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">&#128203;</div>
+                        <h3>Prehlad zakaziek</h3>
+                        <p>Dashboard s aktivnymi zakazkami, stavmi a zarobkami. Vsetko na jednom mieste.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">&#128100;</div>
+                        <h3>Klientska databaza</h3>
+                        <p>Uloz si kontakty, historiu prac a nikdy nehladaj cislo v starom telefone.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">&#128228;</div>
+                        <h3>Zdielanie jednym tapnutim</h3>
+                        <p>Posli PDF cez WhatsApp, email alebo SMS. Zakaznik ho ma do 10 sekund.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 8. AKO TO FUNGUJE ===== -->
+        <section class="how-it-works">
+            <div class="container">
+                <h2 class="section-title text-center">Ako to funguje</h2>
+                <p class="section-subtitle text-center" style="margin-left:auto;margin-right:auto;">
+                    Stvorta jednoduche kroky. Bez skolenia. Bez manualu.
+                </p>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>Vytvor zakazku</h3>
+                        <p>Staci meno klienta a nazov. 10 sekund.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>Pridaj co si robil</h3>
+                        <p>Praca, material, hodiny. Appka spocita sucty.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>Odfotografuj</h3>
+                        <p>Pred, po, blocky. Vsetko sa ulozi ku zakazke.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>Podpis a zdielanie</h3>
+                        <p>Zakaznik podpise na display. PDF posles cez WhatsApp.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 9. KONKURENCIA ===== -->
+        <section class="competitor">
+            <div class="container">
+                <h2 class="section-title text-center">Porovnanie s konkurenciou</h2>
+                <p class="section-subtitle text-center" style="margin-left:auto;margin-right:auto;">
+                    Preco si remeslnici na Slovensku vyberaju FieldMate
+                </p>
+                <div class="competitor-table-wrap">
+                    <table class="competitor-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="highlight-col">FieldMate</th>
+                                <th>Jobber</th>
+                                <th>ServiceTitan</th>
+                                <th>Fakturoid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>SK jazyk</td>
+                                <td class="highlight-col">&#10003; Ano</td>
+                                <td>&#10007;</td>
+                                <td>&#10007;</td>
+                                <td>&#10003; CZ</td>
+                            </tr>
+                            <tr>
+                                <td>Cena</td>
+                                <td class="highlight-col">od 0 &euro;</td>
+                                <td>od 49 $/mes</td>
+                                <td>od 245 $/mes</td>
+                                <td>od 6 &euro;</td>
+                            </tr>
+                            <tr>
+                                <td>Pracovne vykazy</td>
+                                <td class="highlight-col">&#10003;</td>
+                                <td>&#10003;</td>
+                                <td>&#10003;</td>
+                                <td>&#10007;</td>
+                            </tr>
+                            <tr>
+                                <td>Podpis na display</td>
+                                <td class="highlight-col">&#10003;</td>
+                                <td>&#10003;</td>
+                                <td>&#10003;</td>
+                                <td>&#10007;</td>
+                            </tr>
+                            <tr>
+                                <td>Fotodokumentacia</td>
+                                <td class="highlight-col">&#10003;</td>
+                                <td>&#10003;</td>
+                                <td>&#10003;</td>
+                                <td>&#10007;</td>
+                            </tr>
+                            <tr>
+                                <td>Offline rezim</td>
+                                <td class="highlight-col">&#10003;</td>
+                                <td>&#10007;</td>
+                                <td>&#10007;</td>
+                                <td>&#10007;</td>
+                            </tr>
+                            <tr>
+                                <td>ICO / DIC</td>
+                                <td class="highlight-col">&#10003;</td>
+                                <td>&#10007;</td>
+                                <td>&#10007;</td>
+                                <td>&#10003;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 10. CENNIK ===== -->
+        <section class="pricing" id="pricing">
+            <div class="container text-center">
+                <h2 class="section-title">Jednoduchy cennik</h2>
+                <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">
+                    Zacni zadarmo. Upgraduj ked budes pripraveny.
+                </p>
+                <div class="pricing-grid">
+                    <div class="pricing-card free">
+                        <h3>FREE</h3>
+                        <div class="pricing-price">0 &euro;</div>
+                        <div class="pricing-period">navzdy zadarmo</div>
+                        <ul class="pricing-features">
+                            <li>10 zakaziek mesacne</li>
+                            <li>Klientska databaza</li>
+                            <li>PDF pracovne vykazy</li>
+                            <li>Fotodokumentacia</li>
+                            <li>Offline rezim</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;">Zacat zadarmo</a>
+                    </div>
+                    <div class="pricing-card pro">
+                        <div class="badge">Najoblubenejsi</div>
+                        <h3>PRO</h3>
+                        <div class="pricing-price">9,90 &euro;</div>
+                        <div class="pricing-period">mesacne</div>
+                        <ul class="pricing-features">
+                            <li>Neobmedzene zakazky</li>
+                            <li>Firemne logo na PDF</li>
+                            <li>CSV export</li>
+                            <li>Prioritna podpora</li>
+                            <li>AI funkcie (coskoro)</li>
+                        </ul>
+                        <a href="#" class="btn btn-dark" style="width:100%;justify-content:center;">Zacat s PRO</a>
+                    </div>
+                </div>
+                <p class="pricing-note">Rocne predplatne: 7,90 &euro;/mes (usetrite 24 &euro; rocne)</p>
+                <div class="pricing-anchor">
+                    <p>
+                        <strong>15 hodin mesacne</strong> straveneho vecernym pisanim vykazov =
+                        <strong>375 &euro; strateneho casu</strong>.<br>
+                        FieldMate = <strong>9,90 &euro;</strong>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 11. CTA #2 ===== -->
+        <section class="cta-band-2">
+            <div class="container">
+                <h2>Zacni zadarmo. Upgrade ked budes pripraveny.</h2>
+                <p>Ziadne zavazky. Ziadna kreditka. Plna funkcionalita na 14 dni.</p>
+                <div class="hero-buttons" style="justify-content:center;">
+                    <a href="#" class="btn btn-dark">Stiahnut FieldMate</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 12. RECENZIE ===== -->
+        <section class="reviews">
+            <div class="container">
+                <h2 class="section-title text-center">Co hovoria remeslnici</h2>
+                <p class="section-subtitle text-center" style="margin-left:auto;margin-right:auto;">
+                    Skutocni remeslnici, skutocne vysledky.
+                </p>
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <blockquote>
+                            &ldquo;Konecne nemusim vecer sedet nad vykazmi. Poslem PDF este z auta a idem domov k rodine.&rdquo;
+                        </blockquote>
+                        <div class="review-author">
+                            <strong>Majko S.</strong>
+                            <span>Elektrikar, Martin</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <blockquote>
+                            &ldquo;Zakaznici su prekvapeni, ked dostavaju profesionalny vykaz s fotkami do 5 minut po praci.&rdquo;
+                        </blockquote>
+                        <div class="review-author">
+                            <strong>Peter K.</strong>
+                            <span>Instalater, Bratislava</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <blockquote>
+                            &ldquo;Najlepsie na tom je offline rezim. Na stavbe casto nemam signal a appka funguje aj tak.&rdquo;
+                        </blockquote>
+                        <div class="review-author">
+                            <strong>Juro M.</strong>
+                            <span>Stukatir, Zilina</span>
+                        </div>
+                    </div>
+                    <div class="review-card">
+                        <div class="review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                        <blockquote>
+                            &ldquo;Pouzivam to 3 mesiace a usetrim minimalne hodinu denne. Uz nikdy naspat k papieru.&rdquo;
+                        </blockquote>
+                        <div class="review-author">
+                            <strong>Tomas R.</strong>
+                            <span>Kureniar, Kosice</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 13. GARANCIA ===== -->
+        <section class="guarantee">
+            <div class="container">
+                <div class="guarantee-box">
+                    <div class="guarantee-icon">&#128170;</div>
+                    <h2>14 dni PRO zadarmo</h2>
+                    <p>
+                        Vyskusaj plnu verziu PRO na 14 dni. Bez kreditky, bez zavazkov.
+                        Ak ti FieldMate neusetri cas, jednoducho pokracuj s FREE verziou.
+                        Ziadne skryte poplatky.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 14. BONUSY ===== -->
+        <section class="bonuses">
+            <div class="container">
+                <h2 class="section-title text-center">Bonus pre prvych pouzivatelov</h2>
+                <div class="bonus-box">
+                    <div class="bonus-badge">Limitovana ponuka</div>
+                    <h3 style="font-size:1.5rem;font-weight:800;margin-bottom:0.5rem;">Prvych 100 registracii ziskava:</h3>
+                    <ul class="bonus-list">
+                        <li>PRO verzia na 6 mesiacov zadarmo (hodnota 59,40 &euro;)</li>
+                        <li>Pristup k AI funkciam ako prvy (OCR blockov, hlasove zadavanie)</li>
+                        <li>Priamy kontakt s vyvojarom &mdash; tvoj feedback formuje appku</li>
+                    </ul>
+                    <p class="bonus-spots">Zostava 38 miest zo 100.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 15. KTO ZA TYM STOJI ===== -->
+        <section class="about">
+            <div class="container">
+                <div class="about-avatar">&#128736;</div>
+                <h2>Kto za tym stoji</h2>
+                <p class="subtitle">Vytvoril remeslnik pre remeslnikov</p>
+                <p>
+                    Volam sa Marian. 15 rokov som robil ako elektrikar v Martine.
+                    Poznam ten pocit, ked konecne dorobis zakazku o piatej a este ta cakaju vykazy.
+                    Preto som vytvoril FieldMate &mdash; appku, ktoru by som sam chcel mat uz davno.
+                    Kazda funkcia vychadza z realnej praxe na stavbe.
+                </p>
+            </div>
+        </section>
+
+        <!-- ===== 16. PRE KOHO ===== -->
+        <section class="audience">
+            <div class="container">
+                <h2 class="section-title text-center">Pre koho je FieldMate</h2>
+                <p class="section-subtitle text-center" style="margin-left:auto;margin-right:auto;">
+                    FieldMate nie je pre kazdoho. Je pre remeslnikov, ktori chcu pracovat chytrejsie.
+                </p>
+                <div class="audience-grid">
+                    <div class="audience-col audience-yes">
+                        <h3><span class="icon">&#10003;</span> FieldMate je pre teba, ak:</h3>
+                        <ul>
+                            <li><span class="icon">&#10003;</span> Si elektrikar, instalater, kureniar, stukatir alebo tesur</li>
+                            <li><span class="icon">&#10003;</span> Chces mat vykazy hotove na mieste, nie vecer doma</li>
+                            <li><span class="icon">&#10003;</span> Potrebujes profesionalny PDF pre zakaznikov</li>
+                            <li><span class="icon">&#10003;</span> Chces prehlad o zakazkach a zarobkoch</li>
+                            <li><span class="icon">&#10003;</span> Pracujes casto v terene bez internetu</li>
+                        </ul>
+                    </div>
+                    <div class="audience-col audience-no">
+                        <h3><span class="icon">&#10007;</span> FieldMate nie je pre teba, ak:</h3>
+                        <ul>
+                            <li><span class="icon">&#10007;</span> Mas velku firmu s 50+ zamestancami</li>
+                            <li><span class="icon">&#10007;</span> Potrebujes komplexny ERP system</li>
+                            <li><span class="icon">&#10007;</span> Hladassoftver na riadenie projektov</li>
+                            <li><span class="icon">&#10007;</span> Nepotrebujes pracovne vykazy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 17. FAQ ===== -->
+        <section class="faq" id="faq">
+            <div class="container">
+                <h2 class="section-title text-center">Caste otazky</h2>
+                <p class="section-subtitle text-center" style="margin-left:auto;margin-right:auto;">
+                    Odpovede na to, co nas remeslnici pytaju najcastejsie.
+                </p>
+                <div class="faq-list">
+                    <details>
+                        <summary>Funguje FieldMate bez internetu?</summary>
+                        <div class="faq-answer">
+                            Ano, FieldMate je navrhnuty ako offline-first appka. Vsetky zakladne funkcie &mdash;
+                            zakazky, vykazy, fotky, PDF generovanie &mdash; funguju uplne bez pripojenia na internet.
+                            Data sa synchronizuju, ked sa znova pripojis.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Kolko stoji FieldMate?</summary>
+                        <div class="faq-answer">
+                            FREE verzia je navzdy zadarmo s limitom 10 zakaziek mesacne.
+                            PRO verzia stoji 9,90 &euro;/mesacne alebo 7,90 &euro;/mesacne pri rocnom predplatnom.
+                            Ziadne skryte poplatky.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Mozem vyskusat PRO verziu zadarmo?</summary>
+                        <div class="faq-answer">
+                            Ano, kazdy novy pouzivatel ziska 14 dni PRO zadarmo. Bez kreditky, bez zavazkov.
+                            Po skusobnom obdobi mozes pokracovat s FREE verziou alebo upgradovat na PRO.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Na akych zariadeniach FieldMate funguje?</summary>
+                        <div class="faq-answer">
+                            FieldMate je dostupny pre iPhone (iOS 15+) aj Android telefony (Android 10+).
+                            Appka je optimalizovana pre mobilne pouzitie priamo v terene.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Ako zdielam vykaz so zakaznikom?</summary>
+                        <div class="faq-answer">
+                            Po dokonceni vykazu tapnes na &ldquo;Zdielat&rdquo; a vyberiersi sposob &mdash;
+                            WhatsApp, email, SMS alebo hociaka ina appka. Zakaznik dostane profesionalny PDF
+                            do niekolkych sekund.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Su moje data v bezpeci?</summary>
+                        <div class="faq-answer">
+                            Vsetky data su ulozene lokalne na tvojom zariadeni. V buducnosti pridame
+                            cloud synchronizaciu so sifrovanaim a GDPR-kompatibilnym ulozenim.
+                            Tvoje data nikdy nezdielame s tretimi stranami.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Mozem pridat firemne logo na vykazy?</summary>
+                        <div class="faq-answer">
+                            Ano, v PRO verzii mozes nastavit firemne logo, nazov firmy, ICO, DIC
+                            a vsetky tieto udaje sa automaticky zobrazuju na kazdom vykaze a fakture.
+                        </div>
+                    </details>
+                    <details>
+                        <summary>Planujetepridatfakturaciu?</summary>
+                        <div class="faq-answer">
+                            Ano, fakturacia je planovana v najblizsej aktualizacii. Bude zahrnovat
+                            slovenske fakturyvformate s ICO/DIC, QR platobnym kodom PAY by square
+                            a automatickym cislovanim.
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 18. FINALNE CTA ===== -->
+        <section class="final-cta">
+            <div class="container">
+                <h2>
+                    Prestan pisat vykazy o <span class="highlight">siestej vecer</span>.<br>
+                    Zacni ich posielat o <span class="highlight">tretej poobede</span>.
+                </h2>
+                <p>Stiahni FieldMate zadarmo a zacni usetrit cas uz dnes.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="store-btn store-btn-apple">
+                        <span class="store-icon">&#63743;</span>
+                        <span class="store-btn-text">
+                            <small>Stiahnut z</small>
+                            <strong>App Store</strong>
+                        </span>
+                    </a>
+                    <a href="#" class="store-btn store-btn-google">
+                        <span class="store-icon">&#9654;</span>
+                        <span class="store-btn-text">
+                            <small>Stiahnut z</small>
+                            <strong>Google Play</strong>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== 19. FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo">FieldMate <span>&#9889;</span></div>
+            <p class="footer-tagline">Vytvoril remeslnik pre remeslnikov</p>
+            <div class="footer-links">
+                <a href="mailto:info@fieldmate.sk">Kontakt</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <p class="footer-copy">&copy; 2026 Marian Abaffy | fieldmate.marphy.sk</p>
+        </div>
+    </footer>
+
+    <!-- Minimal JS for mobile nav toggle -->
+    <script>
+        document.getElementById('navToggle').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        // Close mobile nav when clicking a link
+        document.querySelectorAll('#navLinks a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                document.getElementById('navLinks').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
