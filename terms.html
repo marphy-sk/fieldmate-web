@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podmienky pouzivania | FieldMate</title>
+    <meta name="description" content="Vseobecne podmienky pouzivania aplikacie FieldMate.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9889;</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #0f172a;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: #f1f5f9;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        :root {
+            --primary-dark: #0f172a;
+            --primary: #1e3a5f;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --bg-light: #f1f5f9;
+            --surface: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --max-width: 1200px;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ========== NAV ========== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1rem 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .nav-logo span {
+            color: var(--accent);
+        }
+
+        .nav-back {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: color 0.2s;
+        }
+
+        .nav-back:hover {
+            color: var(--accent);
+        }
+
+        /* ========== LEGAL PAGE ========== */
+        .legal-page {
+            padding-top: 80px;
+            min-height: 100vh;
+        }
+
+        .legal-header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            padding: 3.5rem 1.5rem;
+            color: #fff;
+        }
+
+        .legal-header .container {
+            max-width: 800px;
+        }
+
+        .legal-header h1 {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .legal-header .updated {
+            font-size: 0.875rem;
+            color: rgba(255,255,255,0.55);
+            margin-top: 0.75rem;
+        }
+
+        .legal-header .intro-text {
+            font-size: 1rem;
+            color: rgba(255,255,255,0.75);
+            margin-top: 1rem;
+            max-width: 600px;
+            line-height: 1.7;
+        }
+
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem 4rem;
+        }
+
+        .legal-content section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem 2.25rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .legal-content section h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        .legal-content p {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.75;
+            margin-bottom: 0.875rem;
+        }
+
+        .legal-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .legal-content ul {
+            list-style: none;
+            margin: 0.5rem 0 0.875rem;
+        }
+
+        .legal-content ul li {
+            color: var(--text-secondary);
+            font-size: 0.9375rem;
+            line-height: 1.7;
+            padding: 0.3rem 0 0.3rem 1.5rem;
+            position: relative;
+        }
+
+        .legal-content ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.75rem;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+
+        .legal-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 12px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .highlight-box p {
+            color: var(--primary-dark);
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+
+        .contact-block {
+            background: var(--bg-light);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .contact-block p {
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0 0.875rem;
+            font-size: 0.9rem;
+        }
+
+        .pricing-table th,
+        .pricing-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .pricing-table th {
+            font-weight: 700;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            background: var(--bg-light);
+            color: var(--text-primary);
+        }
+
+        .pricing-table td {
+            color: var(--text-secondary);
+        }
+
+        .pricing-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: #0a0f1a;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .footer-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 0.25rem;
+        }
+
+        .footer-logo span {
+            color: var(--accent);
+        }
+
+        .footer-tagline {
+            font-size: 0.8125rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            font-size: 0.8125rem;
+            color: rgba(255,255,255,0.5);
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-copy {
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 640px) {
+            .legal-content section {
+                padding: 1.5rem 1.25rem;
+            }
+
+            .pricing-table th,
+            .pricing-table td {
+                padding: 0.625rem 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <a href="index.html" class="nav-logo">FieldMate <span>&nbsp;&#9889;</span></a>
+            <a href="index.html" class="nav-back">&#8592; Spat na hlavnu stranku</a>
+        </div>
+    </nav>
+
+    <div class="legal-page">
+
+        <div class="legal-header">
+            <div class="container">
+                <h1>Podmienky pouzivania</h1>
+                <p class="updated">Posledna aktualizacia: 29.3.2026</p>
+                <p class="intro-text">
+                    Pouzívaním aplikácie FieldMate súhlasíte s týmito podmienkami.
+                    Precítajte si ich — su napísané zrozumitelne, bez pravnického zargonu.
+                </p>
+            </div>
+        </div>
+
+        <div class="legal-content">
+
+            <section>
+                <h2>1. Prevádzkovatel aplikácie</h2>
+                <p>
+                    Aplikáciu FieldMate prevádzkuje:
+                </p>
+                <div class="contact-block">
+                    <p><strong>Marián Abaffy — Marphy s.r.o.</strong></p>
+                    <p>Š. Furdeka 5000/10, 036 01 Martin, Slovenská republika</p>
+                    <p>IČO: 51139618</p>
+                    <p>E-mail: <a href="mailto:info@marphy.sk" style="color: var(--accent);">info@marphy.sk</a></p>
+                    <p>Web: <a href="https://fieldmate.marphy.sk" style="color: var(--accent);">fieldmate.marphy.sk</a></p>
+                </div>
+            </section>
+
+            <section>
+                <h2>2. Co je FieldMate</h2>
+                <p>
+                    FieldMate je mobilná aplikácia urcená pre remeslníkov a živnostníkov na správu
+                    zákaziek, klientov, pracovných výkazov a fotodokumentácie. Aplikácia umoznuje
+                    generovanie PDF výkazov a ich zdielanie cez OS zdielanie.
+                </p>
+                <p>
+                    Aplikácia je v súcasnosti vo fáze <strong>Early Access</strong>. Niektoré funkcie
+                    môzu byt este vo vývoji. Budeme vás informovat o nových verziách a zmenách.
+                </p>
+            </section>
+
+            <section>
+                <h2>3. Pouzívatelský úcet a registrácia</h2>
+                <p>
+                    Vo verziách 1 a 2 aplikácia <strong>nevyzaduje registráciu ani uzivatelský úcet</strong>.
+                    Aplikácia funguje offline, bez pripojenia na internet a bez akejkolvek autentifikácie.
+                </p>
+                <p>
+                    V plánovaných budúcich verziách (Phase 3+) bude volitelná registrácia pre cloud
+                    synchronizáciu. Pouzívatelov budeme o tejto zmene informovat vopred.
+                </p>
+            </section>
+
+            <section>
+                <h2>4. Ceny a predplatné</h2>
+                <p>FieldMate je dostupný v dvoch verziách:</p>
+                <table class="pricing-table">
+                    <thead>
+                        <tr>
+                            <th>Verzia</th>
+                            <th>Cena</th>
+                            <th>Limit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>FREE</strong></td>
+                            <td>Zadarmo, navzdy</td>
+                            <td>10 zákaziek mesacne</td>
+                        </tr>
+                        <tr>
+                            <td><strong>PRO</strong></td>
+                            <td>9,90 € / mesiac<br><small style="color:#94a3b8;">alebo 7,90 € / mesiac pri rocnom predplatnom</small></td>
+                            <td>Neobmedzene zákazky</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    Nový pouzívatel dostane <strong>14 dní PRO verzie zadarmo</strong> bez nutnosti
+                    zadania platobnej karty.
+                </p>
+                <p>
+                    Platby sú spracovávané cez App Store (Apple) alebo Google Play (Google) podla
+                    ich platobných podmienok. My priamo neuchovávame platobné údaje.
+                </p>
+                <p>
+                    Predplatné sa automaticky obnovuje, pokial ho nezrušíte najneskôr 24 hodín pred
+                    koncom aktuálneho obdobia v nastaveniach vasho App Store / Google Play úctu.
+                </p>
+            </section>
+
+            <section>
+                <h2>5. Vaše dáta — vaše vlastníctvo</h2>
+                <div class="highlight-box">
+                    <p>
+                        Vsetky dáta, ktoré v aplikácii vytvoríte — zákazky, klienti, fotky, výkazy —
+                        sú <strong>výlucne vaším vlastníctvom</strong>. Nikdy ich nepredávame ani
+                        neposkytneme tretím stranám.
+                    </p>
+                </div>
+                <p>
+                    Vo verziách 1 a 2 sú všetky dáta uložené iba lokálne na vasej lokalnej databáze.
+                    Odinštalovaním aplikácie sa vymažú. Odporúcame zálohovanie zariadenia.
+                </p>
+            </section>
+
+            <section>
+                <h2>6. Zodpovednost za obsah výkazov a faktúr</h2>
+                <p>
+                    FieldMate je nástroj na <strong>tvorbu dokumentov</strong>. Za správnost obsahu
+                    výkazov, faktúr a udajov v nich zodpovedáte <strong>výlucne vy</strong> ako
+                    pouzívatel.
+                </p>
+                <p>To zahrnuje najmä:</p>
+                <ul>
+                    <li>Správnost cien, množstiev a celkových súm</li>
+                    <li>Správnost fakturacných udajov (IČO, DIČ, IČ DPH)</li>
+                    <li>Súlad faktúr so slovenským daňovým a úctovným právom</li>
+                    <li>Správnost udajov o klientoch a pracovných úkonoch</li>
+                </ul>
+                <p>
+                    Nenesieme žiadnu zodpovednost za chyby v dokumentoch vygenerovaných aplikáciou
+                    ani za ich daňové alebo právne dôsledky. Pri pochybnostiach sa poradte s daňovým
+                    poradcom alebo úctovníkom.
+                </p>
+            </section>
+
+            <section>
+                <h2>7. Dostupnost a zmeny aplikácie</h2>
+                <p>
+                    Aplikácia je poskytovaná <strong>„tak, ako je"</strong> (as is). Neposkytujeme
+                    záruku nepretržitej dostupnosti ani garanciu absencie chýb.
+                </p>
+                <p>
+                    Vyhradzujeme si právo:
+                </p>
+                <ul>
+                    <li>Aktualizovat aplikáciu a menit jej funkcie</li>
+                    <li>Docasne prerušit dostupnost z technických alebo prevádzkových dôvodov</li>
+                    <li>Ukoncit prevádzku aplikácie s primeranou dobou výpovede (min. 30 dní)</li>
+                </ul>
+                <p>
+                    O podstatných zmenách vás budeme informovat v aplikácii alebo e-mailom (ak ste
+                    registrovaný pouzívatel v budúcich verziách).
+                </p>
+            </section>
+
+            <section>
+                <h2>8. Zakázané pouzívanie</h2>
+                <p>Pri pouzívaní FieldMate je zakázané:</p>
+                <ul>
+                    <li>Pouzívat aplikáciu na nezákonné úcely alebo v rozpore s platnými predpismi</li>
+                    <li>Generovat podvodné, zavádzajúce alebo falošné dokumenty</li>
+                    <li>Pokúšat sa o reverzné inžinierstvo, dekompiláciu alebo neoprávnenú modifikáciu aplikácie</li>
+                    <li>Distribuovat alebo dalej predávat aplikáciu bez nášho súhlasu</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>9. Obmedzenie zodpovednosti</h2>
+                <p>
+                    V maximálnom rozsahu povolenom platným právom nezodpovedáme za:
+                </p>
+                <ul>
+                    <li>Stratu dát spôsobenú chybou zariadenia, neúmyselným zmazaním alebo odinštalovaním aplikácie</li>
+                    <li>Nepriame, náhodné alebo následné škody vzniknuté pouzívaním aplikácie</li>
+                    <li>Chyby v dokumentoch vytvorených pouzívatelem a ich daňové alebo právne dôsledky</li>
+                    <li>Škody spôsobené výpadkom zariadenia alebo operacného systému</li>
+                </ul>
+                <p>
+                    Celková zodpovednost zo strany Marphy s.r.o. neprekrocí sumu, ktorú ste zaplatili
+                    za predplatné v posledných 12 mesiacoch.
+                </p>
+            </section>
+
+            <section>
+                <h2>10. Duševné vlastníctvo</h2>
+                <p>
+                    FieldMate, jeho dizajn, logo, zdrojový kód a všetky s ním spojené materiály sú
+                    výhradným vlastníctvom Marphy s.r.o. a sú chránené autorským právom.
+                </p>
+                <p>
+                    Udelujeme vám <strong>neprenosnu, neexkluzívnu licenciu</strong> na pouzívanie
+                    aplikácie pre vaše osobné alebo podnikatelské úcely v súlade s týmito podmienkami.
+                </p>
+            </section>
+
+            <section>
+                <h2>11. Rozhodné právo a spory</h2>
+                <p>
+                    Tieto podmienky sa riadia <strong>právom Slovenskej republiky</strong>.
+                    Príslušným súdom na riešenie prípadných sporov je súd podla sídla prevádzkovatela
+                    — Martin, Slovenská republika.
+                </p>
+                <p>
+                    Pred podaním žaloby vás žiadame, aby ste nás kontaktovali na
+                    <a href="mailto:info@marphy.sk" style="color: var(--accent);">info@marphy.sk</a>
+                    a pokúsili sa spor vyriešit mimosúdne.
+                </p>
+            </section>
+
+            <section>
+                <h2>12. Zmeny podmienok</h2>
+                <p>
+                    Tieto Podmienky pouzívania môzeme priebežne aktualizovat. O podstatných zmenách
+                    vás upozornime priamo v aplikácii. Pokracovaním v pouzívaní aplikácie po nadobudnutí
+                    úcinnosti nových podmienok vyjadrujete s nimi súhlas.
+                </p>
+                <p>
+                    Aktuálne znenie podmienok je vždy dostupné na
+                    <a href="https://fieldmate.marphy.sk/terms.html" style="color: var(--accent);">fieldmate.marphy.sk/terms.html</a>.
+                </p>
+            </section>
+
+            <section>
+                <h2>13. Kontakt</h2>
+                <p>Máte otázky k podmienkam? Kontaktujte nás:</p>
+                <div class="contact-block">
+                    <p><strong>Marián Abaffy — Marphy s.r.o.</strong></p>
+                    <p>Š. Furdeka 5000/10, 036 01 Martin, Slovenská republika</p>
+                    <p>E-mail: <a href="mailto:info@marphy.sk" style="color: var(--accent);">info@marphy.sk</a></p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">FieldMate <span>&#9889;</span></div>
+            <p class="footer-tagline">Vytvoril remeslnik pre remeslnikov</p>
+            <div class="footer-links">
+                <a href="mailto:info@marphy.sk">Kontakt</a>
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Podmienky pouzívania</a>
+            </div>
+            <p class="footer-copy">&copy; 2026 Marian Abaffy | fieldmate.marphy.sk</p>
+        </div>
+    </footer>
+
+</body>
+</html>
